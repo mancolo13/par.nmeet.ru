@@ -3,10 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'providers/game_state_provider.dart';
 import 'screens/splash_screen.dart';
+import 'services/local_notification_service.dart';
 import 'theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize local bonus push notifications service
+  await LocalNotificationService.instance.initialize();
 
   // Set system UI overlay styling
   SystemChrome.setSystemUIOverlayStyle(
