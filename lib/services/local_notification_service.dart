@@ -145,9 +145,6 @@ class LocalNotificationService {
       if (androidImpl != null) {
         final notificationsGranted =
             await androidImpl.requestNotificationsPermission();
-        try {
-          await androidImpl.requestExactAlarmsPermission();
-        } catch (_) {}
         granted = notificationsGranted ?? false;
       }
     } else if (Platform.isIOS) {
@@ -318,26 +315,16 @@ class LocalNotificationService {
       iOS: DarwinNotificationDetails(),
     );
 
-    try {
-      await _notificationsPlugin.zonedSchedule(
-        id: id,
-        title: title,
-        body: body,
-        scheduledDate: tzDateTime,
-        notificationDetails: details,
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      );
-    } catch (_) {
-      // Fallback to inexact if device restricts exact alarms
-      await _notificationsPlugin.zonedSchedule(
-        id: id,
-        title: title,
-        body: body,
-        scheduledDate: tzDateTime,
-        notificationDetails: details,
-        androidScheduleMode: AndroidScheduleMode.inexact,
-      );
-    }
+    // Inexact schedule mode for general retention & bonus reminders
+    // strictly complies with Google Play policies without requiring USE_EXACT_ALARM declaration.
+    await _notificationsPlugin.zonedSchedule(
+      id: id,
+      title: title,
+      body: body,
+      scheduledDate: tzDateTime,
+      notificationDetails: details,
+      androidScheduleMode: AndroidScheduleMode.inexact,
+    );
   }
 
   /// Retrieve the list of pending/scheduled notifications (useful for testing/QA).
