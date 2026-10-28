@@ -88,14 +88,17 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ),
         actions: [
           // Coins and Level Chips
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: AppTheme.surfaceCard,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppTheme.surfaceBorder),
-            ),
+          InkWell(
+            onTap: () => setState(() => _currentIndex = 3),
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: AppTheme.surfaceCard,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppTheme.surfaceBorder),
+              ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -130,6 +133,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 ),
               ],
             ),
+          ),
           ),
           const SizedBox(width: 8),
         ],
